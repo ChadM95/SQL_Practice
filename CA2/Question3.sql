@@ -3,10 +3,9 @@ ALTER PROC procApplyPenaltyInterest
 AS
 BEGIN
 
-    --check if InvoiceID is null
-    IF @invoiceID IS NULL
+    --check if any Invoices exist with the @invoiceID parameter 
+    IF NOT EXISTS (SELECT 1 FROM Invoices WHERE InvoiceID = @invoiceID)
     BEGIN
-        
         PRINT 'No invoice with that ID. Status: 5001, State: 1';
         RETURN;
     END
