@@ -1,5 +1,5 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red71\green138\blue206;
 \red203\green203\blue202;\red167\green197\blue151;\red202\green202\blue202;}
 {\*\expandedcolortbl;;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c99985\c0;\cssrgb\c34146\c61677\c84338;
@@ -12,22 +12,48 @@
 \ulnone My function fnEarliestUnpaidDate appears to work correctly when tested. To test this function I first queried the database with the following script :\
 \
 \pard\pardeftab720\sl360\partightenfactor0
-
-\f1 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec4 SELECT\cf2 \cb3 \strokec5  VendorID, MIN(InvoiceDate) \cf2 \cb3 \strokec4 FROM\cf2 \cb3 \strokec5  Invoices\
-\cf2 \cb3 \strokec4 WHERE\cf2 \cb3 \strokec5  (InvoiceTotal-PaymentTotal) > \cf2 \cb3 \strokec6 0\cf2 \cb3 \strokec5 \
-\cf2 \cb3 \strokec4 GROUP BY\cf2 \cb3 \strokec5  VendorID ;\cf7 \cb1 \strokec7 \
+\cf2 \cb3 \expnd0\expndtw0\kerning0
+SELECT VendorID, MIN(InvoiceDate) FROM Invoices\
+WHERE (InvoiceTotal-PaymentTotal) > 0\
+GROUP BY VendorID ;\cf7 \cb1 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-
-\f0 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0  \
+\cf0 \kerning1\expnd0\expndtw0  \
 This displayed a result set of all of the unpaid invoices with the earliest date and their corresponding VendorID. From this I was able to run the function various times passing in sample Vendor IDs and cross reference the result with the result set of the first script. \
 \
 eg\
 \
 \pard\pardeftab720\sl360\partightenfactor0
-
-\f1 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec4 DECLARE\cf2 \cb3 \strokec5  @answer \cf2 \cb3 \strokec4 DATE\cf2 \cb3 \strokec5 ;\
-\cf2 \cb3 \strokec4 SET\cf2 \cb3 \strokec5  @answer = dbo.fnEarliestUnpaidDate(\cf2 \cb3 \strokec6 80\cf2 \cb3 \strokec5 );\
-\cf2 \cb3 \strokec4 PRINT\cf2 \cb3 \strokec5  @answer ;\cf7 \cb1 \strokec7 \
+\cf2 \cb3 \expnd0\expndtw0\kerning0
+DECLARE @answer DATE;\
+SET @answer = dbo.fnEarliestUnpaidDate(80);\
+PRINT @answer ;\
+\
+I only encountered a minor issue regarding how to write the main sql statements of the script as there was a number of different ways to achieve the same result. However, I believe I have written it in the least verbose way.\
+\cf7 \cb1 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \kerning1\expnd0\expndtw0 \ul QUESTION 2\
+\ulnone \
+My database trigger appears to work fine when tested with a simple update statement on the Vendors table. Note that the new account number must exist in the GL_Accounts table or else it will throw an error as it is a foreign key here.\
+\
+\
+\ul QUESTION 3\
+\ulnone \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\ul \
+\ulnone \
+\
+\
+\
+\
+\
+\
 }
